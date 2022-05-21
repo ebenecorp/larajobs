@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\Listing;
+use App\Http\Controllers\ListingController;
+// use App\Models\Listing;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,14 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', [ListingController::class, 'index'])->name('listing.index');
 
-    $listings = Listing::get();
 
-    return view('listings', compact('listings'));
-});
-
-Route::get('listings/{listing}', function(Listing $listing){
-       
-        return view('listing', compact('listing'));
-});
+Route::resource('listing', ListingController::class)->except([
+   'index'
+]);;
