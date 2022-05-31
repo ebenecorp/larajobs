@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Listing;
 use Illuminate\Http\Request;
+use App\Http\Requests\ListingRequest;
+use Illuminate\Support\Facades\Session;
 
 class ListingController extends Controller
 {
@@ -14,11 +16,11 @@ class ListingController extends Controller
      */
     public function index()
     {
-        $listings = Listing::latest()->filter(request(['tag', 'search']))->get();
+        $listings = Listing::latest()->filter(request(['tag', 'search']))->paginate(6);
         return view('listings.index', compact('listings'));
     }
 
-    /**
+    /**r
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -26,6 +28,7 @@ class ListingController extends Controller
     public function create()
     {
         //
+        return view('listings.create');
     }
 
     /**
@@ -34,9 +37,19 @@ class ListingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ListingRequest $request)
     {
-        //
+        $data = $request->except('file');
+        
+
+        if($request->hasFile('logo')){
+            $filePath = $request->file('logo')->store('logos', 'public');
+            // dd($filePath);
+            $data['path'] = $filePath;
+        }
+        dump($data);
+        Listing::create($data);
+        return redirect()->route('listing.index')->with(Session::flash('message', "New Listing Successfully added"));
     }
 
     /**

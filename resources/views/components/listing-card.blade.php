@@ -3,7 +3,7 @@
 
 <x-card>
 <div class="flex">
-        <img class="hidden w-48 mr-6 md:block" src="{{ asset('images/no-image.png') }}" alt="" />
+        <img class="hidden w-48 mr-6 md:block" src="{{ $listing->path ?  asset('storage/'.$listing->path): asset('images/no-image.png') }}" alt="" />
         <div>
             <h3 class="text-2xl">
                 <a href="/listing/{{ $listing->id }}">{{ $listing->title }}</a>

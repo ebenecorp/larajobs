@@ -14,5 +14,7 @@
             <p> No Job Lisiting Found</p>
         @endunless
     </div>
-
+    <div class="m-2 p-2">
+        {{$listings->links()}}
+    </div>
 @endsection
