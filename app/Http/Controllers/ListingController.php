@@ -28,7 +28,8 @@ class ListingController extends Controller
     public function create()
     {
         //
-        return view('listings.create');
+        $listing = null;
+        return view('listings.create', ['listing' => $listing]);
     }
 
     /**
@@ -40,14 +41,13 @@ class ListingController extends Controller
     public function store(ListingRequest $request)
     {
         $data = $request->except('file');
-        
 
-        if($request->hasFile('logo')){
+
+        if ($request->hasFile('logo')) {
             $filePath = $request->file('logo')->store('logos', 'public');
             // dd($filePath);
             $data['path'] = $filePath;
         }
-        dump($data);
         Listing::create($data);
         return redirect()->route('listing.index')->with(Session::flash('message', "New Listing Successfully added"));
     }
@@ -72,6 +72,7 @@ class ListingController extends Controller
     public function edit(Listing $listing)
     {
         //
+        return view('listings.create', compact('listing'));
     }
 
     /**
@@ -83,6 +84,17 @@ class ListingController extends Controller
      */
     public function update(Request $request, Listing $listing)
     {
+        $data = $request->except('file');
+
+
+        if ($request->hasFile('logo')) {
+            $filePath = $request->file('logo')->store('logos', 'public');
+            // dd($filePath);
+            $data['path'] = $filePath;
+        }
+        
+        $listing->update($data);
+        return back()->with(Session::flash('message', " Listing Successfully Updated "));
         //
     }
 
