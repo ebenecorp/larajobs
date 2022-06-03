@@ -9,7 +9,8 @@
         <x-card class="p-10">
             <div class="flex flex-col items-center justify-center text-center">
                 <img class="w-48 mr-6 mb-6"
-                    src="{{ $listing->path ? asset('storage/' . $listing->path) : asset('images/no-image.png') }}" alt="" />
+                    src="{{ $listing->path ? asset('storage/' . $listing->path) : asset('images/no-image.png') }}"
+                    alt="" />
 
                 <h3 class="text-2xl mb-2">{{ $listing->title }}</h3>
                 <div class="text-xl font-bold mb-4">Acme Corp</div>
@@ -45,6 +46,14 @@
             <a href="{{ route('listing.edit', $listing->id) }}">
                 <i class="fa-solid fa-pencil"></i> Edit
             </a>
+            <form action="{{ route('listing.destroy', $listing->id) }}">
+                @csrf
+                @method('DELETE')
+                <button class="text-red-500">
+                    <i class="fa-solid fa-trash"></i>
+                    Delete
+                </button>
+            </form>
         </x-card>
     </div>
-    @endsection
+@endsection

@@ -107,5 +107,7 @@ class ListingController extends Controller
     public function destroy(Listing $listing)
     {
         //
+        $listing->delete();
+        return redirect()->route('listing.index')->with(Session::flash('message', " Listing Successfully deleted"));
     }
 }

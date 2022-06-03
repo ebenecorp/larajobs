@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\UserController;
 // use App\Models\Listing;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,9 @@ Route::get('/', [ListingController::class, 'index'])->name('listing.index');
 
 Route::resource('listing', ListingController::class)->except([
    'index'
-]);;
+]);
+
+Route::get('register', [UserController::class, 'create'])->name('register');
+Route::get('login', [UserController::class, 'create'])->name('login');
+
+Route::post('users', [UserController::class, 'store'])->name('users.store');
