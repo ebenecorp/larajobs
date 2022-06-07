@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\AuthenticateUsersRequest;
 
 class UserController extends Controller
 {
@@ -26,8 +27,21 @@ class UserController extends Controller
         return redirect()->route('listing.index')->with(Session::flash('message', " User account created and logged in "));
     }
 
-    public function show(){
-        return view('user.login');
+    public function show()
+    {
+        return view('users.login');
+    }
+
+    public function authenticate(AuthenticateUsersRequest $request)
+    {
+
+        if (auth()->attempt($request->except('_token'))) {
+            $request->session()->regenerate();
+
+            return redirect()->route('listing.index')->with(Session::flash('message', " User account created and logged in "));
+        }
+
+        return back()->withErrors(['email' => ' Invalid username and password '])->onlyInput('email');
     }
 
     public function logout(Request $request)

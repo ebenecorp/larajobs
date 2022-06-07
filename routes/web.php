@@ -25,6 +25,7 @@ Route::resource('listing', ListingController::class)->except([
 
 Route::get('register', [UserController::class, 'create'])->name('register');
 Route::get('login', [UserController::class, 'show'])->name('login');
+Route::post('login', [UserController::class, 'authenticate'])->name('authenticate');
 Route::post('logout', [UserController::class, 'logout'])->name('logout');
 
 Route::post('users', [UserController::class, 'store'])->name('users.store');
