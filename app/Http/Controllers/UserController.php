@@ -7,9 +7,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\AuthenticateUsersRequest;
+use PhpParser\Node\Expr\FuncCall;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('guest')->except(['logout']);
+        $this->middleware('auth')->only(['logout']);
+    }
+
     //
     public function create()
     {
@@ -46,9 +53,10 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
+
         auth()->logout();
-        $request->session()->invalidate();
         $request->session()->regenerateToken();
+        $request->session()->invalidate();
 
         return redirect()->route('listing.index')->with(Session::flash('message', "You have been loggout "));
     }
