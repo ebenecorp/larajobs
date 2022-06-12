@@ -49,8 +49,8 @@ class ListingController extends Controller
     public function store(ListingRequest $request)
     {
         $data = $request->except('file');
-
-
+        $data['user_id'] = auth()->user()->id;
+        
         if ($request->hasFile('logo')) {
             $filePath = $request->file('logo')->store('logos', 'public');
             // dd($filePath);
@@ -104,6 +104,10 @@ class ListingController extends Controller
         $listing->update($data);
         return back()->with(Session::flash('message', " Listing Successfully Updated "));
         //
+    }
+
+    public function manage(){
+        return view('listings.manage', ['listings'=> auth()->user()->listings()->get()]);
     }
 
     /**

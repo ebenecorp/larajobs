@@ -19,10 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ListingController::class, 'index'])->name('listing.index');
 
 
+Route::get('listing/manage', [ListingController::class, 'manage'])->name('listing.manage');
 Route::resource('listing', ListingController::class)->except([
    'index'
 ]);
-
 Route::get('register', [UserController::class, 'create'])->name('register');
 Route::get('login', [UserController::class, 'show'])->name('login');
 Route::post('login', [UserController::class, 'authenticate'])->name('authenticate');
